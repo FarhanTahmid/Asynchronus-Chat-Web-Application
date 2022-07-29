@@ -62,7 +62,7 @@
             chatSocket.onmessage=function(e){
                 const data = JSON.parse(e.data);
                 console.log(data)
-                document.querySelector('#user-hello').innerHTML=(data.tester)
+                    
                 document.querySelector('#chat-text').value += (data.message + '\n')
             }
 
