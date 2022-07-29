@@ -13,14 +13,30 @@
         <link rel="stylesheet" href="">
     </head>
     <body>
+        
 
-    <div id="user-hello" >
+        <textarea id="chat_text" cols="80" rows="30"> </textarea><br>
+        <input id="input" type="text" size="88"><br>
+        <input id="submit" type="button" value="Send">
 
-    </div>
+
+        <div id="user-hello" ></div>
 
 
         {{ room_name|json_script:"room_name" }}
         <script>
+            
+            document.querySelector('#submit').onclick=function(e){
+                const messageInput=document.querySelector('#input');
+                const message=messageInput.value;
+                chatSocket.send(JSON.stringify({
+                    'message':message,
+                }));
+                messageInput.value='';
+            };
+            
+            
+            
             const roomname=JSON.parse(document.getElementById('room_name').textContent);
 
             const chatSocket=new WebSocket(
