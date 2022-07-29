@@ -9,15 +9,19 @@ class ChatRoomConsumer(AsyncWebsocketConsumer):
             self.room_group_name,
             self.channel_name
         )
+
+        await self.accept()
+
         await self.channel_layer.group_send(
             self.room_group_name,
             {
                 'type':'tester_message',
-                'tester':'tester',
+                'tester':'hello world',
             }
         )
     async def tester_message(self,event):
         tester=event['tester']
+
         await self.send(text_data=json.dumps({
             'tester':tester
         }))
@@ -26,3 +30,4 @@ class ChatRoomConsumer(AsyncWebsocketConsumer):
             self.room_group_name,
             self.channel_name
         )
+    pass

@@ -13,9 +13,32 @@
         <link rel="stylesheet" href="">
     </head>
     <body>
-        <!--[if lt IE 7]>
-            <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="#">upgrade your browser</a> to improve your experience.</p>
-        <![endif]-->
+
+    <div id="user-hello" >
+
+    </div>
+
+
+        {{ room_name|json_script:"room_name" }}
+        <script>
+            const roomname=JSON.parse(document.getElementById('room_name').textContent);
+
+            const chatSocket=new WebSocket(
+                'ws://'+
+                window.location.host +
+                '/ws/chat/' +
+                roomname +
+                '/'
+            );
+
+            chatSocket.onmessage=function(e){
+                const data = JSON.parse(e.data);
+                console.log(data)
+                document.querySelector('#user-hello').innerHTML=(data.tester)
+            }
+
+
+        </script>
         
         <script src="" async defer></script>
     </body>
