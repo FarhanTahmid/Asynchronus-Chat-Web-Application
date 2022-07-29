@@ -16,7 +16,6 @@
     
     </head>
     <body>
-        
         <div class="container">
             <div class="row d-flex justify-content-center">
                 <div class="col-6">
@@ -36,21 +35,25 @@
 
 
         {{ room_name|json_script:"room_name" }}
+        {{ request.user.username|json_script:"user_username" }}
         <script>
+
+            const user_username=JSON.parse(document.getElementsById('user_username').textContent);
+            const roomname=JSON.parse(document.getElementById('room_name').textContent);
+
             
             document.querySelector('#submit').onclick=function(e){
                 const messageInput=document.querySelector('#input');
                 const message=messageInput.value;
                 chatSocket.send(JSON.stringify({
                     'message':message,
+                    'username':user_username,
                 }));
                 messageInput.value='';
             };
             
             
             
-            const roomname=JSON.parse(document.getElementById('room_name').textContent);
-
             const chatSocket=new WebSocket(
                 'ws://'+
                 window.location.host +
@@ -62,8 +65,8 @@
             chatSocket.onmessage=function(e){
                 const data = JSON.parse(e.data);
                 console.log(data)
-                    
-                document.querySelector('#chat-text').value += (data.message + '\n')
+
+                document.querySelector('#chat-text').value += (data.username + ': ' + data.message + '\n')
             }
 
 
