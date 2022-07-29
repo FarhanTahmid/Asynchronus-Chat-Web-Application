@@ -16,6 +16,7 @@
     
     </head>
     <body>
+        {{ user }}
         <div class="container">
             <div class="row d-flex justify-content-center">
                 <div class="col-6">
@@ -31,17 +32,15 @@
                     </form>
                 </div>
             </div>
-        </div>
+        </div>      
 
 
-        {{ room_name|json_script:"room_name" }}
+       
         {{ request.user.username|json_script:"user_username" }}
+        {{ room_name|json_script:"room_name" }}
         <script>
 
-            const user_username=JSON.parse(document.getElementsById('user_username').textContent);
-            const roomname=JSON.parse(document.getElementById('room_name').textContent);
-
-            
+            const user_username=JSON.parse(document.getElementsById('user_username').textContent);  
             document.querySelector('#submit').onclick=function(e){
                 const messageInput=document.querySelector('#input');
                 const message=messageInput.value;
@@ -52,7 +51,7 @@
                 messageInput.value='';
             };
             
-            
+            const roomname=JSON.parse(document.getElementById('room_name').textContent);
             
             const chatSocket=new WebSocket(
                 'ws://'+
@@ -68,10 +67,18 @@
 
                 document.querySelector('#chat-text').value += (data.username + ': ' + data.message + '\n')
             }
-
-
         </script>
         
-        <script src="" async defer></script>
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
+        integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous">
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"
+        integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous">
+    </script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"
+        integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV" crossorigin="anonymous">
+    </script>
     </body>
 </html>
